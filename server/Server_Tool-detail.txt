@@ -1,0 +1,11 @@
+npm init
+
+npm i && npm install
+- express
+- cors
+- mysql2
+- nodemon
+  - "start": "nodemon index.js" => add to package.json
+- sequelize 
+- sequelize-cli
+  - npx sequelize init

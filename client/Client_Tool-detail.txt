@@ -1,0 +1,6 @@
+npm create vite@latest .  
+- npm install
+npx create-reate-app .
+
+npm install && npm i
+- axios
