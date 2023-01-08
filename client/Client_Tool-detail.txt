@@ -2,5 +2,8 @@ npm create vite@latest .
 - npm install
 npx create-reate-app .
 
-npm install && npm i
+npm install or npm i
 - axios
+- react-router-dom
+- formik
+- yup
