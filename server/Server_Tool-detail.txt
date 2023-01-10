@@ -10,3 +10,4 @@ npm i && npm install
 - sequelize-cli
   - npx sequelize init
 - bcrypt
+- jsonwebtoken
