@@ -9,3 +9,4 @@ npm i && npm install
 - sequelize 
 - sequelize-cli
   - npx sequelize init
+- bcrypt
