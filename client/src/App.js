@@ -37,25 +37,29 @@ function App() {
 
     const logout = () => {
         localStorage.removeItem("accessToken");
-        setAuthState({username:"",id:0,status:false});
+        setAuthState({ username: "", id: 0, status: false });
     };
     return (
         <div className="App">
             <AuthContext.Provider value={{ authState, setAuthState }}>
                 <BrowserRouter>
                     <div className="navbar">
-                        <Link to="/createpost">Create A Post</Link>
-                        <Link to="/">Home</Link>
-                        {!authState.status && (
-                            <>
-                                <Link to="/registertion">Registertion</Link>
-                                <Link to="/login">Login</Link>
-                            </>
-                        )}
-                    </div>
-                    <div className="loggedInContainer">
-                        <h1>{authState.username}</h1>
-                        {authState.status && <button onClick={logout}>logout</button>}
+                        <div className="links">
+                            <Link to="/">Home</Link>
+                            <Link to="/createpost">Create A Post</Link>
+                            {!authState.status && (
+                                <>
+                                    <Link to="/login">Login</Link>
+                                    <Link to="/registertion">Registertion</Link>
+                                </>
+                            )}
+                        </div>
+                        <div className="loggedInContainer">
+                            <h1>{authState.username}</h1>
+                            {authState.status && (
+                                <button onClick={logout}>logout</button>
+                            )}
+                        </div>
                     </div>
                     <Routes>
                         <Route path="/" element={<Home />} />
