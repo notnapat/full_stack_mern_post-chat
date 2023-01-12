@@ -6,7 +6,7 @@ import { AuthContext } from "../helpers/AuthContext";
 function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const {setAuthState} = useContext(AuthContext)
+    const { setAuthState } = useContext(AuthContext);
 
     let navigate = useNavigate();
 
@@ -17,8 +17,8 @@ function Login() {
             .then((response) => {
                 if (response.data.error) alert(response.data.error);
                 else {
-                    localStorage.setItem("accessToken", response.data);
-                    setAuthState(true)
+                    localStorage.setItem("accessToken", response.data.token);
+                    setAuthState({ username: response.data.username, id: response.data.id, status: true });
                     navigate("/");
                 }
             });

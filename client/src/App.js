@@ -10,7 +10,11 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 
 function App() {
-    const [authState, setAuthState] = useState(false);
+    const [authState, setAuthState] = useState({
+        username: "",
+        id: 0,
+        status: false,
+    });
     useEffect(() => {
         axios
             .get("http://localhost:3001/auth/auth", {
@@ -18,14 +22,23 @@ function App() {
                     accessToken: localStorage.getItem("accessToken"),
                 },
             })
-            .then((Response) => {
-                if (Response.data.error) {
-                    setAuthState(false);
+            .then((response) => {
+                if (response.data.error) {
+                    setAuthState({ ...authState, status: false });
                 } else {
-                    setAuthState(true);
+                    setAuthState({
+                        username: response.data.username,
+                        id: response.data.id,
+                        status: true,
+                    });
                 }
             });
     }, []);
+
+    const logout = () => {
+        localStorage.removeItem("accessToken");
+        setAuthState({username:"",id:0,status:false});
+    };
     return (
         <div className="App">
             <AuthContext.Provider value={{ authState, setAuthState }}>
@@ -33,12 +46,16 @@ function App() {
                     <div className="navbar">
                         <Link to="/createpost">Create A Post</Link>
                         <Link to="/">Home</Link>
-                        {!authState && (
+                        {!authState.status && (
                             <>
                                 <Link to="/registertion">Registertion</Link>
                                 <Link to="/login">Login</Link>
                             </>
                         )}
+                    </div>
+                    <div className="loggedInContainer">
+                        <h1>{authState.username}</h1>
+                        {authState.status && <button onClick={logout}>logout</button>}
                     </div>
                     <Routes>
                         <Route path="/" element={<Home />} />
