@@ -7,3 +7,4 @@
 ep.7 เพิ่มคอมเมนต์ และดึงคอมเมนต์มาโชว์
 ep.8 Register And Login
 ep.9 jwt ต้อง login ก่อนจะคอมเมนต์
+ep.10 ยืนยัน login เพิ่มชื่อคนเมนต์ ใช้ context  api มาเล่นกับ jwt เพื่อ แยกระหว่าง userจริง กับuserปลอม และใช้เปลี่ยนต่า navbar เมื่อloginแล้ว

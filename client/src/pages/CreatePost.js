@@ -39,7 +39,7 @@ function CreatePost() {
                     <label>Title: </label>
                     <ErrorMessage name="title" component="span" />
                     <Field
-                        autocomplete="off" // แนะนำคำที่พิมพ์ก่อนหน้า หรือ คำที่เราพิมพ์บ่อย
+                        autoComplete="off" // แนะนำคำที่พิมพ์ก่อนหน้า หรือ คำที่เราพิมพ์บ่อย
                         id="inputCreatePost"
                         name="title"
                         placeholder="(Ex. Title...)"
@@ -54,7 +54,7 @@ function CreatePost() {
                     <label>Username: </label>
                     <ErrorMessage name="username" component="span" />
                     <Field
-                        autocomplete="off"
+                        autoComplete="off"
                         id="inputCreatePost"
                         name="username"
                         placeholder="(Ex. John123...)"
