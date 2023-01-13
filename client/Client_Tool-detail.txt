@@ -7,3 +7,6 @@ npm install or npm i
 - react-router-dom
 - formik
 - yup
+- mui
+  - default installation
+  - Icons

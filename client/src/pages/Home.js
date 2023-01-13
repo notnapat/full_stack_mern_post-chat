@@ -2,16 +2,28 @@ import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 function Home() {
     const [listOfPosts, setListOfPosts] = useState([]);
+    const [likedPosts, setLikedPosts] = useState([]);
     let navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:3001/posts").then((response) => {
-            // console.log(response.data);
-            setListOfPosts(response.data);
-        });
+        axios
+            .get("http://localhost:3001/posts", {
+                headers: {
+                    accessToken: localStorage.getItem("accessToken"),
+                },
+            })
+            .then((response) => {
+                setListOfPosts(response.data.listOfPosts);
+                setLikedPosts(
+                    response.data.likedPosts.map((likes) => {
+                        return likes.PostId;
+                    })
+                );
+            });
     }, []);
 
     const likeAPost = (postId) => {
@@ -37,10 +49,20 @@ function Home() {
                                 return { ...post, Likes: likesArray };
                             }
                         } else {
-                            return post
+                            return post;
                         }
                     })
                 );
+
+                if (likedPosts.includes(postId)) {
+                    setLikedPosts(
+                        likedPosts.filter((id) => {
+                            return id !== postId;
+                        })
+                    );
+                } else {
+                    setLikedPosts([...likedPosts, postId])
+                }
             });
     };
     return (
@@ -49,6 +71,7 @@ function Home() {
             {listOfPosts.map((value) => {
                 return (
                     <div className="post" key={value.id}>
+                    {/* // <div  key={key} className="post"> */}
                         <div className="title">{value.title}</div>
                         <div
                             className="body"
@@ -59,16 +82,20 @@ function Home() {
                             {value.postText}
                         </div>
                         <div className="footer">
-                            {value.username}{" "}
-                            <button
-                                onClick={() => {
-                                    likeAPost(value.id);
-                                }}
-                            >
-                                {""}
-                                Like
-                            </button>
-                            <label> {value.Likes.length}</label>
+                            <div className="username">{value.username}</div>
+                            <div className="buttons">
+                                <ThumbUpIcon
+                                    onClick={() => {
+                                        likeAPost(value.id);
+                                    }}
+                                    className={
+                                        likedPosts.includes(value.id)
+                                            ? "likeBttn"
+                                            : "unlikeBttn"
+                                    }
+                                />
+                                <label> {value.Likes.length}</label>
+                            </div>
                         </div>
                     </div>
                 );
