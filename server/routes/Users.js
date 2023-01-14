@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Users } = require("../models");
 const bcrypt = require("bcrypt");
-const {validateToken} = require("../middlewares/AuthMiddleware")
+const { validateToken } = require("../middlewares/AuthMiddleware");
 
 const { sign } = require("jsonwebtoken");
 
@@ -31,7 +31,11 @@ router.post("/login", async (req, res) => {
                     { username: user.username, id: user.id },
                     "importantsecret"
                 );
-                res.json({token: accessToken, username: user.username, id: user.id});
+                res.json({
+                    token: accessToken,
+                    username: user.username,
+                    id: user.id,
+                });
             }
         });
     }
@@ -39,6 +43,17 @@ router.post("/login", async (req, res) => {
 
 router.get("/auth", validateToken, (req, res) => {
     res.json(req.user);
+});
+
+router.get("/basicinfo/:id", async (req, res) => {
+    const id = req.params.id;
+
+    // ดึง ข้อมูล ที้งหมด ใน id นี้ แต่ แยก password ออก หรือ ไม่เอา password
+    //  basicInfo == ข้อมูลพื้นฐาน
+    const basicInfo = await Users.findByPk(id, {
+        attributes: { exclude: ["password"] },
+    });
+    res.json(basicInfo);
 });
 
 module.exports = router;

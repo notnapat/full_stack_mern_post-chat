@@ -9,6 +9,7 @@ import { AuthContext } from "./helpers/AuthContext";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import PageNotFound from "./pages/PageNotFound";
+import Profile from "./pages/Profile";
 
 function App() {
     const [authState, setAuthState] = useState({
@@ -34,6 +35,7 @@ function App() {
                     });
                 }
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const logout = () => {
@@ -46,12 +48,15 @@ function App() {
                 <BrowserRouter>
                     <div className="navbar">
                         <div className="links">
-                            <Link to="/">Home</Link>
-                            <Link to="/createpost">Create A Post</Link>
-                            {!authState.status && (
+                            {!authState.status ? (
                                 <>
                                     <Link to="/login">Login</Link>
                                     <Link to="/registertion">Registertion</Link>
+                                </>
+                            ) : (
+                                <>
+                                    <Link to="/">Home</Link>
+                                    <Link to="/createpost">Create A Post</Link>
                                 </>
                             )}
                         </div>
@@ -63,7 +68,6 @@ function App() {
                         </div>
                     </div>
                     <Routes>
-                        <Route path="*" element={<PageNotFound />} />
                         <Route path="/" element={<Home />} />
                         <Route path="/createpost" element={<CreatePost />} />
                         <Route path="/post/:id" element={<Post />} />
@@ -72,6 +76,8 @@ function App() {
                             path="/registertion"
                             element={<Registertion />}
                         />
+                        <Route path="/profile/:id" element={<Profile />} />
+                        <Route path="*" element={<PageNotFound />} />
                     </Routes>
                 </BrowserRouter>
             </AuthContext.Provider>

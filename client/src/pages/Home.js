@@ -1,15 +1,21 @@
+// import React, { useContext } from "react";
 import React from "react";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+// import { AuthContext } from "../helpers/AuthContext";
 
 function Home() {
     const [listOfPosts, setListOfPosts] = useState([]);
     const [likedPosts, setLikedPosts] = useState([]);
+    // const { authState } = useContext(AuthContext);
     let navigate = useNavigate();
 
     useEffect(() => {
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/login");
+        }
         axios
             .get("http://localhost:3001/posts", {
                 headers: {
@@ -24,6 +30,7 @@ function Home() {
                     })
                 );
             });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const likeAPost = (postId) => {
@@ -61,7 +68,7 @@ function Home() {
                         })
                     );
                 } else {
-                    setLikedPosts([...likedPosts, postId])
+                    setLikedPosts([...likedPosts, postId]);
                 }
             });
     };
@@ -71,7 +78,7 @@ function Home() {
             {listOfPosts.map((value) => {
                 return (
                     <div className="post" key={value.id}>
-                    {/* // <div  key={key} className="post"> */}
+                        {/* // <div  key={key} className="post"> */}
                         <div className="title">{value.title}</div>
                         <div
                             className="body"
@@ -82,7 +89,11 @@ function Home() {
                             {value.postText}
                         </div>
                         <div className="footer">
-                            <div className="username">{value.username}</div>
+                            <div className="username">
+                                <Link to={`/profile/${value.UserId}`}>
+                                    {value.username}
+                                </Link>
+                            </div>
                             <div className="buttons">
                                 <ThumbUpIcon
                                     onClick={() => {
