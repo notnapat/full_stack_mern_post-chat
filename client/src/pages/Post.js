@@ -79,14 +79,68 @@ function Post() {
             });
     };
 
+    const editPost = (potion) => {
+        if (potion === "title") {
+            // prompt ("")  == น่าจะ พิมพ์อะไรลงไปใน prom นี้ จะเก็บค่า แล้ว ค่า เท่ากับตัวแปล
+            let newTitle = prompt("Enter New Title:");
+            axios.put(
+                "http://localhost:3001/posts/title",
+                {
+                    newTitle: newTitle,
+                    id: id,
+                },
+                {
+                    headers: {
+                        accessToken: localStorage.getItem("accessToken"),
+                    },
+                }
+            );
+            // ใส่เพื่อ จะได้ไม่ต้อง รีเฟส เมื่อ อัพข้อมูลใหม่แล้ว , ให้ข้อมูลในอื่นๆโพสเหมือนเดิม เปลี่ยนแค่ในส่วน title
+            setPostObJect({ ...postObject, title: newTitle });
+        } else {
+            let newPostText = prompt("Enter New Text");
+            axios.put(
+                "http://localhost:3001/posts/postText",
+                {
+                    newText: newPostText,
+                    id: id,
+                },
+                {
+                    headers: {
+                        accessToken: localStorage.getItem("accessToken"),
+                    },
+                }
+            );
+            setPostObJect({ ...postObject, postText: newPostText });
+        }
+    };
+
     return (
         <div className="postPage">
             <div className="leftSide">
                 <div className="post" id="individual">
-                    <div className="title"> {postObject.title}</div>
-                    <div className="body"> {postObject.postText}</div>
+                    <div
+                        className="title"
+                        onClick={() => {
+                            if (authState.username === postObject.username) {
+                                editPost("title");
+                            }
+                        }}
+                    >
+                        {postObject.title}
+                    </div>
+                    <div
+                        className="body"
+                        onClick={() => {
+                            if (authState.username === postObject.username) {
+                                editPost("body");
+                            }
+                        }}
+                    >
+                        {postObject.postText}
+                    </div>
                     <div className="footer">
-                        {postObject.username}{" "}
+                        {postObject.username}
                         {authState.username === postObject.username && (
                             <button
                                 onClick={() => {

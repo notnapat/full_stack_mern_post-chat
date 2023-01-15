@@ -13,3 +13,4 @@ ep.12 like post
 ep.13 ทำปุ่ม like , ทำหน้า ไม่พบหน้า ถ้าไปหน้าที่ไม่มี
 ep.14 ปุ่ม Delete Post
 ep.15 หน้า User Profile 
+ep.16 update title and content เข้าไปอับได้ที่หน้าโปรไฟล์  , เปลี่ยนรหัสผ่าน password ที่หน้าโปรไฟล์
